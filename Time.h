@@ -8,7 +8,7 @@ using namespace std;
 class Time
 {
 private:
-	map<string, int> time;
+	multimap<string, int> time;
 
 	void init(int hour, int minute, int second) {
 		this->time = {
@@ -26,15 +26,15 @@ private:
 	}
 public:
 	const int toSeconds() {
-		 int s = (time["hour"] * 60 * 60) + time["minute"] * 60 + time["second"];
+		 int s = (time.find("hour")->second * 60 * 60) + time.find("minute")->second * 60 + time.find("second")->second;
 		 return s;
 	}
 
 	int toMinutes() {
-		int s = (time["hour"] * 60 ) + time["minute"] ;
+		int s = (time.find("hour")->second * 60 ) + time.find("minute")->second ;
 		
 		//rounding
-		if (time["second"] >= 30)
+		if (time.find("second")->second >= 30)
 			s += 1;
 
 		return s;
@@ -58,7 +58,6 @@ public:
 		int second = stoi(arr[2]);
 
 		init( hour, minute, second );
-		
 	}
 
 	Time(int seconds){
@@ -82,8 +81,6 @@ public:
 		init(newtime.tm_hour, newtime.tm_min, newtime.tm_sec);
 	}
 
-
-
 	void decrease(int seconds) {
 		tm oldtime = toTm(toSeconds());
 		tm addtime = toTm(seconds);
@@ -101,17 +98,12 @@ public:
 
 	string toString() {
 		
-		string s = to_string(this->time["hour"]) + ':';
+		string s = to_string(this->time.find("hour")->second) + ':';
 
-		s += to_string(this->time["minute"]) + ':' ;
-		s += to_string(this->time["second"]) ;
+		s += to_string(this->time.find("minute")->second) + ':' ;
+		s += to_string(this->time.find("second")->second) ;
 		return s;
 	}
-
-
-
 	
-
-
 };
 
